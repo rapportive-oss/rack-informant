@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = 'rack-informant'
   s.authors = ['Rapportive Inc']
   s.email = 'supportive@rapportive.com'
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.summary = %q{Reporting middleware.}
   s.description = "Middleware that reports all requests to an interested party (e.g. for analytics)."
   s.homepage = "https://github.com/rapportive-oss/rack-informant"
