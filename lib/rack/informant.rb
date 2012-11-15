@@ -30,13 +30,13 @@ module Rack
     end
 
     def call(env)
-      @start = Time.now
+      start = Time.now
 
       if original_callback = env['async.callback']
         env['async.callback'] = proc do |response|
           status, headers, body = response
 
-          inform!(env, status, headers, body)
+          inform!(env, start, status, headers, body)
 
           original_callback.call(response)
         end
@@ -49,7 +49,7 @@ module Rack
         return [status, headers, body] if status == -1 # alternative async API
 
         # if we got *this* far, @app.call is definitely synchronous
-        inform!(env, status, headers, body)
+        inform!(env, start, status, headers, body)
 
         return [status, headers, body]
       end
@@ -59,8 +59,8 @@ module Rack
     end
 
     private
-    def inform!(env, status, headers, body)
-      runtime = Time.now - @start
+    def inform!(env, start, status, headers, body)
+      runtime = Time.now - start
 
       event = {
         method: env['REQUEST_METHOD'],
